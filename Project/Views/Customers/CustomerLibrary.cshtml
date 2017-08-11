@@ -1,0 +1,29 @@
+﻿@*Developed by M.Chasse*@
+
+@model Project.Models.Customer
+@{
+    ViewBag.Title = "Customer Library";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    /*get cookie data*/
+    var cookie = Request.Cookies["UserID"];
+    string userID = "";
+    if (cookie != null)
+    {
+        userID = cookie.Value;
+    }
+
+    var cookieUsername = Request.Cookies["Username"];
+    string Username = "";
+    if (cookieUsername != null)
+    {
+        Username = cookieUsername.Value;
+    }
+}
+
+<h2>Here is @Username 's Streamsong Library</h2>
+@*for debug, will take out: *@
+<p>Your user id is: @userID</p>
+
+<h3>List of Songs</h3>
+

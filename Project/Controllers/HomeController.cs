@@ -1,4 +1,5 @@
-﻿using System;
+﻿//developed by M.Chasse
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,10 +11,10 @@ namespace Project.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("CustomerForm", "Customers");
         }
 
-        public ActionResult About()
+/*        public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
@@ -25,6 +26,6 @@ namespace Project.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
+        }*/
     }
 }
