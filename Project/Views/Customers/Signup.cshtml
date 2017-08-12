@@ -1,0 +1,58 @@
+﻿@*Developed by M.Chasse*@
+
+@model Project.Models.Customer
+@{
+    ViewBag.Title = "Customer Signup Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Signup for Streamsong</h2>
+
+
+@using (Html.BeginForm("Register", "Customers"))
+{
+    @Html.ValidationSummary();
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.TextBoxFor(m => m.Password, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m=>m.Password)
+    </div>
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.IsSubscriber) I'm a paid subscriber (check box if true)
+        </label>
+    </div>
+
+    /*if no id exists already, cust is new so give id of 0*/
+    /*pass cust id as hidden field */
+    @Html.Hidden("custId", @Model != null ? Model.Id : 0)
+
+    <button type="submit" class="btn btn-default">Submit</button>
+    <br/>
+  @*  @Html.ActionLink("Retry", "Authenticate", "Customers")*@
+    <br />
+    @Html.ActionLink("Already a customer? Login here", "CustomerLogin", "Customers")
+    <br />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        console.log("validate");
+    </script>
+}

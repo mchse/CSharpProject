@@ -13,11 +13,11 @@ namespace Project.Controllers
         //index goes to form page
         public ActionResult Index()
         {
-            return RedirectToAction("CustomerForm");
+            return RedirectToAction("CustomerLogin");
         }
 
-        //load /Customers/CustomerForm
-        public ActionResult CustomerForm()
+        //load /Customers/CustomerLogin
+        public ActionResult CustomerLogin()
         {
             return View();
         }
@@ -45,11 +45,11 @@ namespace Project.Controllers
                 }
                 return Content("incorrect password");
                 //insert message to user to retry password
-                //return RedirectToAction("CustomerForm");
+                //return RedirectToAction("CustomerLogin");
             }
             return Content("username not found");
             //insert message to user to retry username
-            //return RedirectToAction("CustomerForm");
+            //return RedirectToAction("CustomerLogin");
         }
 
 
@@ -58,7 +58,7 @@ namespace Project.Controllers
                     //Validation: based on annotations rules [] put in model 
                     if (!ModelState.IsValid)
                     {
-                        return View("CustomerForm", customer);
+                        return View("CustomerLogin", customer);
                     }
 
                     var custId = int.Parse(Request["Id"]);
@@ -82,5 +82,40 @@ namespace Project.Controllers
                     }
 
                 }*/
+
+        //load /Users/Signup
+        public ActionResult Signup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                //if invalid return to form with error message
+                return View("Signup", customer);
+            }
+
+            var custID = int.Parse(Request["custId"]);
+            customer.Id = custID;
+
+            //if id is 0 doesn't exist in db
+            if (customer.Id == 0) 
+            {
+                CustomerDAO.Create(customer);
+                return Content("New Customer was Registered!");
+                //return RedirectToAction("CustomerLogin");
+            }
+            else
+            {
+                CustomerDAO.Update(customer);
+                return Content("Existing Customer aas Updated");
+                //return RedirectToAction("CustomerLogin");
+            }
+
+        }
+
     }
 }

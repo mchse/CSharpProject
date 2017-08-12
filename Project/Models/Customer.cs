@@ -19,9 +19,9 @@ namespace Project.Models
         public string Password { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
         [Display(Name = "I am a Subscriber")]
         public bool IsSubscriber { get; set; }
 
