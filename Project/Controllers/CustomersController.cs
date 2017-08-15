@@ -1,16 +1,18 @@
 ﻿//developed by M.Chasse
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.EntitySql;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Project.Models;
 
 namespace Project.Controllers
 {
     public class CustomersController : Controller
     {
-        //index goes to form page
+        //index goes to login page
         public ActionResult Index()
         {
             return RedirectToAction("CustomerLogin");
@@ -22,7 +24,8 @@ namespace Project.Controllers
             return View();
         }
 
-        public ActionResult Authenticate()
+        //load /Customers/Authenticate
+        public ActionResult Authenticate(Customer customer)
         {
             var username = Request["Username"];
             var password = Request["Password"];
@@ -32,58 +35,29 @@ namespace Project.Controllers
             {
                 if (user.Password == password)
                 {
-                    return Content("SUCCESS: user authenticated!");
-
                     //set cookies
-/*                    var cookie = new HttpCookie("custId", customer.Id.ToString());
-                    Response.AppendCookie(cookie);
+                    var cookieId = new HttpCookie("custId", user.Id.ToString());
+                    Response.AppendCookie(cookieId);
 
-                    var cookieName = new HttpCookie("Username", customer.Username);
+                    var cookieName = new HttpCookie("Username", user.Username);
                     Response.AppendCookie(cookieName);
 
-                    return RedirectToAction("CustomerLibrary");*/
+                    return View("CustomerLibrary", user);
                 }
-                return Content("incorrect password");
-                //insert message to user to retry password
-                //return RedirectToAction("CustomerLogin");
+                Response.Write("<script>alert('Incorrect Password. Please retry.');</script>");
+                //bootbox attempt
+                /*Response.Write("<script> function test() {" +
+                               "event.preventDefault();" +
+                               "bootbox.alert('Incorrect Password. Please retry.'," +
+                               " function() {});" +
+                               "}</script>");*/
+                return View("CustomerLogin", customer);
             }
-            return Content("username not found");
-            //insert message to user to retry username
-            //return RedirectToAction("CustomerLogin");
+            Response.Write("<script>alert('Username not found. Please retry.')</script>");
+            return View("CustomerLogin", customer);
         }
 
-
-        /*        public ActionResult Save(Customer customer)
-                {
-                    //Validation: based on annotations rules [] put in model 
-                    if (!ModelState.IsValid)
-                    {
-                        return View("CustomerLogin", customer);
-                    }
-
-                    var custId = int.Parse(Request["Id"]);
-
-                    //took hidden field cust id from form and passed to customer.Id
-                    customer.Id = custId;
-
-                    if (customer.Id == 0) //if id is 0 doesn't exist in db
-                    {
-                        //create customer on db
-                        //CustomerDAO.Create(customer);
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        //update customer on db
-                        //CustomerDAO.Update(customer);
-
-                        return RedirectToAction("Index");
-                    }
-
-                }*/
-
-        //load /Users/Signup
+        //load /Customers/Signup
         public ActionResult Signup()
         {
             return View();
@@ -94,7 +68,7 @@ namespace Project.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //if invalid return to form with error message
+                //if invalid return to form with built-in error messages
                 return View("Signup", customer);
             }
 
@@ -105,16 +79,33 @@ namespace Project.Controllers
             if (customer.Id == 0) 
             {
                 CustomerDAO.Create(customer);
-                return Content("New Customer was Registered!");
-                //return RedirectToAction("CustomerLogin");
+                Response.Write("<script>alert('You are Registered! Please login now.')</script>");
+                return View("CustomerLogin", customer);
             }
-            else
+            //future app feature: update customer would go on its own page after authentication has occurred
+/*            else
             {
                 CustomerDAO.Update(customer);
-                return Content("Existing Customer aas Updated");
-                //return RedirectToAction("CustomerLogin");
-            }
+                Response.Write("<script>alert('Your account was Updated! Please login now.')</script>");
+                return View("CustomerLogin", customer);
+            }*/
+            return View("CustomerLogin", customer);
+        }
 
+
+        public ActionResult CustomerLibrary(Customer customer)
+        {
+            //from library table, load all songs with cust id
+            var songs = LibraryDAO.GetCustomerSongs(customer);
+            return View(songs);
+        }
+
+        [Route("Customer/AddSongToLibrary/{songId}/{custId}")]
+        public ActionResult AddSongToLibrary(int songId, int custId)
+        {
+            //in library table, add row with song id and cust id
+            LibraryDAO.AddSongToCustomerLibrary(songId, custId);
+            return RedirectToAction("CustomerLibrary");
         }
 
     }

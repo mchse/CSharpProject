@@ -11,7 +11,7 @@ namespace Project.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("CustomerForm", "Customers");
+            return RedirectToAction("CustomerLogin", "Customers");
         }
 
 /*        public ActionResult About()

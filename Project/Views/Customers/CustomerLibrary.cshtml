@@ -6,11 +6,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     /*get cookie data*/
-    var cookie = Request.Cookies["UserID"];
-    string userID = "";
-    if (cookie != null)
+    var cookieId = Request.Cookies["UserID"];
+    string custID = "";
+    if (cookieId != null)
     {
-        userID = cookie.Value;
+        custID = cookieId.Value;
     }
 
     var cookieUsername = Request.Cookies["Username"];
@@ -21,9 +21,33 @@
     }
 }
 
-<h2>Here is @Username 's Streamsong Library</h2>
+<h2>@Username 's Streamsong Library</h2>
 @*for debug, will take out: *@
-<p>Your user id is: @userID</p>
+<p>Your user id is: @Model.Id</p>
 
-<h3>List of Songs</h3>
+<h3>Saved Songs</h3>
 
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Artist</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+   @* @foreach (var song in Model)*@
+    {
+        <tr>
+            @*<td><a href ="/Customers/Details/@customer.Id">@customer.Name</a></td>*@
+            @* <td>@Html.ActionLink(song.Title, "CustomerLibrary", "Library", new {id = song.Id}, null)</td>*@
+
+            @*<td>@Html.ActionLink("Register", "RegisterWorkshop", "Workshops", new { id = workshop.Id, userID = userID }, null)</td>*@
+            @*<td><a href="/Workshop/RegisterWorkshop/@song.Id/@custID">Register</a></td>*@
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+@*@Html.ActionLink("FIND more songs to add", "SongLibrary", "Song");*@

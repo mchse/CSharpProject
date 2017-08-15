@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Signup for Streamsong</h2>
+<h2>Streamsong Signup (or update credentials)</h2>
 
 
 @using (Html.BeginForm("Register", "Customers"))
@@ -33,7 +33,7 @@
 
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(m => m.IsSubscriber) I'm a paid subscriber (check box if true)
+            @Html.CheckBoxFor(m => m.IsSubscriber) I'd like to subscribe (check box if true)
         </label>
     </div>
 
@@ -41,7 +41,7 @@
     /*pass cust id as hidden field */
     @Html.Hidden("custId", @Model != null ? Model.Id : 0)
 
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default">Sign me up</button>
     <br/>
   @*  @Html.ActionLink("Retry", "Authenticate", "Customers")*@
     <br />
