@@ -18,8 +18,8 @@ namespace Project.Models
         {
             //Connection String for Mike and Melissa
             //Connection to MusicDB has been set
-            _connection = new SqlConnection("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=MusicDB;Data Source=MEL-T450;MultipleActiveResultSets=true");
-            //_connection = new SqlConnection(@"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=MusicDB;Data Source=MIKE;MultipleActiveResultSets=true");
+            //_connection = new SqlConnection("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=MusicDB;Data Source=MEL-T450;MultipleActiveResultSets=true");
+            _connection = new SqlConnection("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=MusicDB;Data Source=MIKE;MultipleActiveResultSets=true");
         }
 
         public static MyDB GetInstance()

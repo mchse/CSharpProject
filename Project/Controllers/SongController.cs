@@ -10,15 +10,17 @@ namespace Project.Controllers
     public class SongController : Controller
     {
         // GET: Song
-        public ActionResult Index()
+        public ActionResult SongLibrary()
         {
-            songs = SongDAO.GetSongs();
+            var songs = SongDAO.GetSongs();
             return View(songs);
         }
 
-        public ActionResult SongDetails(int id)
+        [Route("Song/RegisterSong/{songId}/{custId}")]
+        public ActionResult RegisterSong(int songId, int custId)
         {
-            return Content("Song: " + id,ToString());
+            SongDAO.AddSongToCustomerLibrary(songId, custId);
+            return RedirectToAction("SongLibrary");
         }
     }
 }

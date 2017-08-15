@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Project.Models;
 
 namespace Project.Models
 {
     public class SongDAO
     {
-        public static List<Song> GetSongs(string title)
+        public static List<Song> GetSongs()
         {
             var songs = new List<Song>();
             var db = MyDB.GetInstance();
@@ -28,7 +29,7 @@ namespace Project.Models
             return songs;
         }
 
-        public static void AddSong(int custId, int songId)
+        public static void AddSongToCustomerLibrary(int songId, int custId)
         {
             var db = MyDB.GetInstance();
             var sql = string.Format("INSERT INTO Library VALUES ({0}, {1})", custId, songId);
