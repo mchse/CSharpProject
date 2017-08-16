@@ -206,8 +206,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerDAO.cs" />
+    <Compile Include="Models\CustSongViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\LibraryDAO.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MyDB.cs" />
     <Compile Include="Models\Song.cs" />

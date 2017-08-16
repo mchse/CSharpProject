@@ -25,24 +25,37 @@ namespace Project.Controllers
         }
 
         //load /Customers/Authenticate
-        public ActionResult Authenticate(Customer customer)
+        public ActionResult Authenticate(Customer user)
         {
             var username = Request["Username"];
             var password = Request["Password"];
-            var user = CustomerDAO.GetCustomerbyUsername(username);
+            var customer = CustomerDAO.GetCustomerbyUsername(username);
 
-            if (user != null)
+            if (customer != null)
             {
-                if (user.Password == password)
+                if (customer.Password == password)
                 {
                     //set cookies
-                    var cookieId = new HttpCookie("custId", user.Id.ToString());
+                    var cookieId = new HttpCookie("custId", customer.Id.ToString());
                     Response.AppendCookie(cookieId);
 
-                    var cookieName = new HttpCookie("Username", user.Username);
+                    var cookieName = new HttpCookie("Username", customer.Username);
                     Response.AppendCookie(cookieName);
 
-                    return View("CustomerLibrary", user);
+                    //from library table, load all songs with cust id
+                    //var songs = LibraryDAO.GetCustomerSongs(customer);
+                    var songs = SongDAO.GetCustomerSongs(customer);
+
+                    var custSongViewModel = new CustSongViewModel
+                    {
+                        CurrentCustomer = customer,
+                        Songs = songs
+                    };
+                    return View("CustomerLibrary", custSongViewModel);
+
+                    //pass the user to the CustomerLibrary function directly
+                    //return CustomerLibrary(customer);
+                    //return View("CustomerLibrary", customer);
                 }
                 Response.Write("<script>alert('Incorrect Password. Please retry.');</script>");
                 //bootbox attempt
@@ -51,10 +64,10 @@ namespace Project.Controllers
                                "bootbox.alert('Incorrect Password. Please retry.'," +
                                " function() {});" +
                                "}</script>");*/
-                return View("CustomerLogin", customer);
+                return View("CustomerLogin", user);
             }
             Response.Write("<script>alert('Username not found. Please retry.')</script>");
-            return View("CustomerLogin", customer);
+            return View("CustomerLogin", user);
         }
 
         //load /Customers/Signup
@@ -82,7 +95,7 @@ namespace Project.Controllers
                 Response.Write("<script>alert('You are Registered! Please login now.')</script>");
                 return View("CustomerLogin", customer);
             }
-            //future app feature: update customer would go on its own page after authentication has occurred
+            //future app feature: update customer would go on its own page after authentication
 /*            else
             {
                 CustomerDAO.Update(customer);
@@ -93,18 +106,36 @@ namespace Project.Controllers
         }
 
 
-        public ActionResult CustomerLibrary(Customer customer)
+        public ActionResult CustomerLibrary(CustSongViewModel custSongs)
+        {
+            return View(custSongs);
+        }
+
+/*        public ActionResult CustomerLibrary(Customer customer)
         {
             //from library table, load all songs with cust id
             var songs = LibraryDAO.GetCustomerSongs(customer);
-            return View(songs);
-        }
+
+            var custSongViewModel = new CustSongViewModel
+            {
+                CurrentCustomer = customer,
+                Songs = songs
+            };
+            return View("CustomerLibrary", custSongViewModel);
+        }*/
 
         [Route("Customer/AddSongToLibrary/{songId}/{custId}")]
         public ActionResult AddSongToLibrary(int songId, int custId)
         {
             //in library table, add row with song id and cust id
-            LibraryDAO.AddSongToCustomerLibrary(songId, custId);
+            SongDAO.AddSongToCustomerLibrary(songId, custId);
+            return RedirectToAction("CustomerLibrary");
+        }
+
+        public ActionResult DeleteSongFromCustLibrary()
+        {
+            //todo: implement delete song from library given cust id
+            //SongDAO.DeleteSongFromCustLibrary(songId, custId);
             return RedirectToAction("CustomerLibrary");
         }
 

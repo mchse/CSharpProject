@@ -1,12 +1,14 @@
 ﻿@*Developed by M.Chasse*@
 
-@model Project.Models.Customer
+@model Project.Models.CustSongViewModel
+@*@model List<Project.Models.Song>*@
+
 @{
     ViewBag.Title = "Customer Library";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     /*get cookie data*/
-    var cookieId = Request.Cookies["UserID"];
+    var cookieId = Request.Cookies["custID"];
     string custID = "";
     if (cookieId != null)
     {
@@ -22,8 +24,8 @@
 }
 
 <h2>@Username 's Streamsong Library</h2>
-@*for debug, will take out: *@
-<p>Your user id is: @Model.Id</p>
+@*comment in for debug: *@
+@*<p>Your user id is: @custID</p>*@
 
 <h3>Saved Songs</h3>
 
@@ -32,21 +34,22 @@
     <tr>
         <th>Title</th>
         <th>Artist</th>
+        <th>Remove Song</th>
     </tr>
     </thead>
     <tbody>
     
-   @* @foreach (var song in Model)*@
+    @foreach (var song in Model.Songs)
     {
         <tr>
-            @*<td><a href ="/Customers/Details/@customer.Id">@customer.Name</a></td>*@
-            @* <td>@Html.ActionLink(song.Title, "CustomerLibrary", "Library", new {id = song.Id}, null)</td>*@
-
-            @*<td>@Html.ActionLink("Register", "RegisterWorkshop", "Workshops", new { id = workshop.Id, userID = userID }, null)</td>*@
+            @*:todo implement links to go to song album and artist pages *@
+            <td>@Html.ActionLink(song.Title, "CustomerLibrary", "Customers", new {id = song.Id}, null)</td>
+            <td>@Html.ActionLink(song.Artist, "CustomerLibrary", "Customers", new { id = song.Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "DeleteSongFromCustLibrary", "Customers", new { id = song.Id, custID = custID }, null)</td>
             @*<td><a href="/Workshop/RegisterWorkshop/@song.Id/@custID">Register</a></td>*@
         </tr>
     }
     </tbody>
 </table>
 
-@*@Html.ActionLink("FIND more songs to add", "SongLibrary", "Song");*@
+<h4>@Html.ActionLink("Click here for more songs to add", "SongLibrary", "Song")</h4>
