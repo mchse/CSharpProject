@@ -4,38 +4,31 @@
     ViewBag.Title = "Song Library";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var cookie = Request.Cookies["CustID"];
-    string userID = "";
+    var cookie = Request.Cookies["custID"];
+    string custID = "";
     if (cookie != null)
     {
-        userID = cookie.Value;
-    }
-
-    var cookieUsername = Request.Cookies["Username"];
-    string Username = "";
-    if (cookieUsername != null)
-    {
-        Username = cookieUsername.Value;
+        custID = cookie.Value;
     }
 }
 
 <h2>Song Library</h2>
 
-<table class="table songs table-striped">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Title</th>
             <th>Artist</th>
         </tr>
     </thead>
-    <tbody>s
+    <tbody>
         @foreach (var song in Model)
         {
             <tr>
                 <td>@song.Title</td>
-                @*@<td>@Html.ActionLink(song.Title, "SongLibrary", "Song", new {id = song.Id}, null)</td>*@
+                @*<td>@Html.ActionLink(song.Title, "SongLibrary", "Song", new {id = song.Id}, null)</td>*@
                 <td>@song.Artist</td>
-                <td><a href="/Song/AddSongToCustomerLibrary/@song.Id">Add</a></td>
+                <td><a href="/Song/RegisterSong/@song.Id/@custID">Add</a></td>
             </tr>
         }
     </tbody>
