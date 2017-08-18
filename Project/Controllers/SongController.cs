@@ -21,7 +21,7 @@ namespace Project.Controllers
         {
             //Add songs to the current user
             SongDAO.AddSongToCustomerLibrary(songId, custId);
-            return RedirectToAction("SongLibrary");
+            return Redirect("SongLibrary");
         }
         //public ActionResult Delete()
         //{
