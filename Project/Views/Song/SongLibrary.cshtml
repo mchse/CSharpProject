@@ -26,9 +26,9 @@
         {
             <tr>
                 <td>@song.Title</td>
-                @*<td>@Html.ActionLink(song.Title, "SongLibrary", "Song", new {id = song.Id}, null)</td>*@
                 <td>@song.Artist</td>
-                <td><a href="/Song/RegisterSong/@song.Id/@custID">Add</a></td>
+                @*<td><a href="/Song/RegisterSong/@song.Id/@custID">Add</a></td>*@
+            <td>@Html.ActionLink("Add", "RegisterSong", "Song", new { id = song.Id, custId = custID }, null)</td>
             </tr>
         }
     </tbody>

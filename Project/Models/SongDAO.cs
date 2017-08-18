@@ -58,5 +58,14 @@ namespace Project.Models
             }
             return custSongs;
         }
+
+        public static void DeleteSongFromCustomerLibrary(int custId, int songId)
+        {
+            var db = MyDB.GetInstance();
+            var sql =
+                string.Format("DELETE FROM Library WHERE custId = {0} AND songId = {1}", custId, songId);
+            db.ExecuteSql(sql);
+        }
+
     }
 }

@@ -114,7 +114,7 @@ namespace Project.Controllers
             /*            else
                         {
                             CustomerDAO.Update(customer);
-                            Response.Write("<script>alert('Your account was Updated! Please login now.')</script>");
+                            Response.Write("<script>alert('Your accoaunt was Updated! Please login now.')</script>");
                             return View("CustomerLogin", customer);
                         }*/
             return View("CustomerLogin", customer);

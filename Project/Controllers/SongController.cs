@@ -16,17 +16,11 @@ namespace Project.Controllers
             return View(songs);
         }
 
-        [Route("Song/RegisterSong/{songId}/{custId}")]
-        public ActionResult RegisterSong(int songId, int custId)
+        public ActionResult RegisterSong(int id, int custId)
         {
             //Add songs to the current user
-            SongDAO.AddSongToCustomerLibrary(songId, custId);
-            return Redirect("SongLibrary");
+            SongDAO.AddSongToCustomerLibrary(id, custId);
+            return RedirectToAction("CustomerLibrary", "Customers");
         }
-        //public ActionResult Delete()
-        //{
-        //    //:todo implement delete
-        //    return View();
-        //}
     }
 }
