@@ -24,8 +24,6 @@
 }
 
 <h2>@Username 's Streamsong Library</h2>
-@*comment in for debug: *@
-@*<p>Your user id is: @custID</p>*@
 
 <h3>Saved Songs</h3>
 
@@ -43,10 +41,12 @@
     {
         <tr>
             @*:todo implement links to go to song album and artist pages *@
-            <td>@Html.ActionLink(song.Title, "CustomerLibrary", "Customers", new {id = song.Id}, null)</td>
-            <td>@Html.ActionLink(song.Artist, "CustomerLibrary", "Customers", new { id = song.Id }, null)</td>
-            <td>@Html.ActionLink("Delete", "DeleteSongFromCustLibrary", "Customers", new { id = song.Id, custID = custID }, null)</td>
-            @*<td><a href="/Workshop/RegisterWorkshop/@song.Id/@custID">Register</a></td>*@
+@*            <td>@Html.ActionLink(song.Title, "CustomerLibrary", "Customers", new { songId = song.Id}, null)</td>
+            <td>@Html.ActionLink(song.Artist, "CustomerLibrary", "Customers", new { songId = song.Id }, null)</td>*@
+            
+            <td>@song.Title</td>
+            <td>@song.Artist</td>
+            <td>@Html.ActionLink("Delete", "DeleteSong", "Customers", new { id = custID, songId = song.Id }, null)</td>
         </tr>
     }
     </tbody>

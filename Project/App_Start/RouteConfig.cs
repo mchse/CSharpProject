@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Project.Models;
 
 namespace Project
 {
@@ -11,7 +12,38 @@ namespace Project
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "DeleteSong",
+                url: "Customers/DeleteSong/{id}/{songId}",
+                defaults: new
+                {
+                    controller = "Customers",
+                    action = "DeleteSong" 
+                }
+            );
+
+            routes.MapRoute(
+                name: "RegisterSong",
+                url: "Song/RegisterSong/{id}/{custId}",
+                defaults: new
+                {
+                    controller = "Song",
+                    action = "RegisterSong"
+                }
+            );
+
+            routes.MapRoute(
+                name: "SongLibrary",
+                url: "Song/SongLibrary",
+                defaults: new
+                {
+                    controller = "Song",
+                    action = "SongLibrary",
+                }
+            );
 
             routes.MapRoute(
                 name: "Default",
@@ -20,17 +52,6 @@ namespace Project
                                 action = "Index",
                                 id = UrlParameter.Optional }
             );
-            //routes.MapRoute(
-            //    name: "RegisterSong",
-            //    url: "{controller}/{action}/{songId}/{custId}",
-            //    defaults: new
-            //    {
-            //        controller = "SongController",
-            //        action = "RegisterSong",
-            //        songId = "songId",
-            //        custId = "custId"
-            //    }
-            //);
         }
     }
 }
